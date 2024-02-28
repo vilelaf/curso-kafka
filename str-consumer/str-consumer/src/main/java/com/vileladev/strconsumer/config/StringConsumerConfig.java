@@ -1,18 +1,21 @@
 package com.vileladev.strconsumer.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.ContainerCustomizer;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 
 import java.util.HashMap;
 
 @Configuration
+@Log4j2
 @RequiredArgsConstructor
 public class StringConsumerConfig {
 
@@ -48,5 +51,31 @@ public class StringConsumerConfig {
         return factory;
 
     }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> validMessageContainerFactory(
+            ConsumerFactory<String,String> consumerFactory)
+    {
+        var factory = new ConcurrentKafkaListenerContainerFactory<String,String>();
+
+        factory.setConsumerFactory(
+                consumerFactory
+        );
+
+        factory.setRecordInterceptor(
+                record -> {
+                    if(record.value().contains("valid")){
+                        log.info("Record valid {}", record.value());
+                        return record;
+                    }
+                    return null;
+                }
+        );
+
+
+        return factory;
+
+    }
+
 
 }
