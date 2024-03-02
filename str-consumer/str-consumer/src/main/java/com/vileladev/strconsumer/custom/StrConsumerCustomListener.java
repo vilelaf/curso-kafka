@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 @KafkaListener
 public @interface StrConsumerCustomListener {
 
+
     @AliasFor(annotation = KafkaListener.class, attribute = "topics")
     String[] topics() default "str-topic";
 
@@ -20,6 +21,9 @@ public @interface StrConsumerCustomListener {
     String containerFactory() default "strContainerFactory";
 
     @AliasFor(annotation = KafkaListener.class, attribute = "groupId")
-    String groupId() default "group-1";
+    String groupId() default "";
+
+    @AliasFor(annotation = KafkaListener.class, attribute = "errorHandler")
+    String errorHandler() default "errorCustomHandler";
 
 }

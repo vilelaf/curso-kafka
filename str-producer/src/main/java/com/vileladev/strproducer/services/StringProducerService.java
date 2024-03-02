@@ -14,12 +14,12 @@ public class StringProducerService {
 
     private final KafkaTemplate<String, String> kafkatemplate;
 
-
     public void sendMessage(String message){
+        log.info("SEND {}",message);
         kafkatemplate.send(
            "str-topic",
            message
-        ).addCallback(
+       /* ).addCallback(
               success -> {
                   if (success != null) {
                       log.info("Send message with success {} ", message);
@@ -28,7 +28,7 @@ public class StringProducerService {
                               success.getRecordMetadata().offset());
                   }
               },
-                error -> log.info("Error")
+                error -> log.info("Error")*/
         );
     }
 }

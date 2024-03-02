@@ -1,5 +1,4 @@
-package com.vileladev.paymentservice.model;
-
+package com.vileladev.jsonconsumer.model;
 
 import lombok.Getter;
 

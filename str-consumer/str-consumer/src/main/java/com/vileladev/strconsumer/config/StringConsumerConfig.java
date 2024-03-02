@@ -1,6 +1,7 @@
 package com.vileladev.strconsumer.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -53,6 +54,7 @@ public class StringConsumerConfig {
     }
 
     @Bean
+    @SneakyThrows
     public ConcurrentKafkaListenerContainerFactory<String, String> validMessageContainerFactory(
             ConsumerFactory<String,String> consumerFactory)
     {
